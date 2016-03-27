@@ -1,3 +1,4 @@
 {
-  "secret": "Flick's Secret Key"
+  "secret": "Flick's Secret Key",
+  "database":"mongodb://userAdmin:UserAdmin1!@ds025449.mlab.com:25449/controldb"
 }
