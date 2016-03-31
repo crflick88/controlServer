@@ -19,38 +19,65 @@ app.post('/users', function(req, res) {
     user.password = req.body.password;
     user.admin = req.body.admin;
     user.privileges= req.body.privileges;
+    
+    
+    if (!user.username || !user.password) 
+        return res.status(400).send("You must send the username and the password");
+    else{
+       User.findOne({
+                username:req.body.username
+            },function(err,userFound){
+                //if(err)
+                    //return res.status(404).send(err);
+                    
+                if(userFound)
+                    return res.status(400).send("A user with that username already exists.");
+                else{
+                    user.save(function(err,user){
+                        if(err)
+                            return res.status(404).send(err);
+                            else{
+                                return res.status(201).send({success:true,message:'User created successfully.',id_token:createToken(user)});   
+                            }
+                    });
+                }
+            }); 
+    }
+    
 
-    user.save(function(err,user){
-        if(err)
-            res.send(err);
-        res.json({success:true,message:'User created successfully.'});
-    });
+    
 });
 
 app.post('/sessions/create', function(req, res) {
-
-  User.findOne({
-                username:req.body.username
+    
+    if (!req.body.email || !req.body.password) 
+        res.status(400).send("You must send the username and the password");
+    else{
+      User.findOne({
+                username:req.body.email
             },function(err,user){
                 if(err)
-                    res.send(err);
-                
-                if(!user){
-                    res.json({success:false,message:'Authentication failed. User not found.'});
-                }else{
-                    if (user.password != req.body.password){
-                        res.json({success:false,message:'Authentication failed. Wrong password.'});
-                    }
-                    else{
-                        //var token = jwt.sign(user, config.secret, {expiresIn:60});
-                        var token = createToken(user);
-                        
-                        res.json({
-                            success: true,
-                            message: 'Enjoy your Token!',
-                            token: token
-                        });
-                    }
+                    return res.status(404).send(err);
+                else{
+                    if(!user){
+                        return res.status(401).send({success:false,message:"The username or password don't match."});
+                    }else{
+                        if (user.password != req.body.password){
+                            return res.status(401).send({success:false,message:"The username or password don't match."});
+                        }
+                        else{
+                            //var token = jwt.sign(user, config.secret, {expiresIn:60});
+                            
+                            return res.status(201).send({
+                                success: true,
+                                message: 'Enjoy your Token!',
+                                id_token: createToken(user)
+                            });
+                        }
+                    }   
                 }
-            });
+                
+            });  
+    }
+    
 });
