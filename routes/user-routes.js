@@ -50,11 +50,13 @@ app.post('/users', function(req, res) {
 
 app.post('/sessions/create', function(req, res) {
     
-    if (!req.body.email || !req.body.password) 
+    //if (!req.body.email || !req.body.password) 
+    if (!req.body.username || !req.body.password) 
         res.status(400).send("You must send the username and the password");
     else{
       User.findOne({
-                username:req.body.email
+                //username:req.body.email
+                username:req.body.username
             },function(err,user){
                 if(err)
                     return res.status(404).send(err);
