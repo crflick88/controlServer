@@ -49,23 +49,26 @@ app.post('/users', function(req, res) {
 });
 
 app.post('/sessions/create', function(req, res) {
-    
-    //if (!req.body.email || !req.body.password) 
-    if (!req.body.username || !req.body.password) 
-        res.status(400).send("You must send the username and the password");
-    else{
+    //return res.status(401).send("req~  username: "+req.body.username + " email: "+req.body.email+" pass: "+req.body.password);
+    if (!req.body.email || !req.body.password){ 
+    //if (!req.body.username || !req.body.password) {
+        res.status(400).send("You must send the username and the password");    
+    }
+    else
+    {
       User.findOne({
-                //username:req.body.email
-                username:req.body.username
+                username:req.body.email
+                //username:req.body.username
             },function(err,user){
                 if(err)
                     return res.status(404).send(err);
                 else{
                     if(!user){
-                        return res.status(401).send({success:false,message:"The username or password don't match."});
+                        var msg = req.body.email;
+                        return res.status(401).send({success:false,message:"The username or password don't match 1.", username: msg});
                     }else{
                         if (user.password != req.body.password){
-                            return res.status(401).send({success:false,message:"The username or password don't match."});
+                            return res.status(401).send({success:false,message:"The username or password don't match 2.", user: this.user});
                         }
                         else{
                             //var token = jwt.sign(user, config.secret, {expiresIn:60});
