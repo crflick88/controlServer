@@ -3,14 +3,42 @@ var express = require('express'),
     config  = require('../config'),
     jwt     = require('jsonwebtoken'),
     mongoose= require('mongoose');
+    exjwt     = require('express-jwt');
 
 var app = module.exports = express.Router();
 
 var User   = require('../models/user-model');
 
 function createToken(user) {
-  return jwt.sign(_.omit(user, 'password'), config.secret, { expiresIn:86400 });
+    
+    var payload = {
+        "user":user.username, 
+        "admin":user.admin, 
+        "privileges":user.privileges
+    };
+    
+    
+    return jwt.sign(payload, config.secret, { expiresIn:86400 });
+  //return jwt.sign(_.omit(user, 'password'), config.secret, { expiresIn:86400 });
 }
+
+var jwtCheck = exjwt({
+  secret: config.secret
+});
+
+//app.use('/users', jwtCheck);
+
+app.get('/users',function(req,res){
+    var user = new User();
+    
+    User.find(function(err,users){
+                if (err)
+                    res.send(err);
+                
+                res.json(users);
+            });
+    
+});
 
 app.post('/users', function(req, res) {
     var user = new User();
@@ -43,8 +71,39 @@ app.post('/users', function(req, res) {
                 }
             }); 
     }
+ app.get('/users')   
+});
+/*
+//Middleware for users/id
+app.use('users/:user_id',function(req,res,next){
+    // use our user model to find the user we want
+    User.findById(req.params.user_id,function(err,user){
+        if(err)
+            res.status(500).send(err);
+        else if(user){
+            req.user = user;
+            
+            next();
+        }else
+            res.status(404).send('No users found.');
+        
+    });
     
-
+});
+*/
+app.get('/users/:user_id',function(req,res){
+    
+    User.findById(req.params.user_id,function(err,user){
+        if(err)
+            res.status(500).send(err);
+        else if(user){
+            //req.user = user;
+            
+            res.status(200).json(user);
+        }else
+            res.status(404).send('No users found.');
+        
+    });
     
 });
 
