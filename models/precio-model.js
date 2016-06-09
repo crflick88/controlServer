@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 // set up a mongoose model
 var PrecioSchema = new Schema({
     nombre: {type: String, required: true},
-    precio: Number,
+    precio: {type: Number,  default:0},
     tipo: {type: String, required: true, enum:['compra','venta']},
 });
 

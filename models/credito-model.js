@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 
 // set up a mongoose model
 var CreditoSchema = new Schema({
+    folio: {type: Number, required: true},
     fecha_entrega: {type: Date, required: true, default: Date.now},
     fecha_cobro: {type: Date, required: true, default: +new Date() + 14*24*60*60*1000},
     fecha_pago: {type: Date, required: false},
