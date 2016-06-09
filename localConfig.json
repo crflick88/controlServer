@@ -1,0 +1,4 @@
+{
+  "secret": "Flick's Secret Key",
+  "database":"mongodb://localhost/controldb"
+}

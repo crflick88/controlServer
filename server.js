@@ -6,7 +6,8 @@ var logger          = require('morgan'),
     cors            = require('cors'),
     dotenv          = require('dotenv'),
     bodyParser      = require('body-parser'),
-    config          = require('./config');
+    //config          = require('./config');
+    config          = require('./localConfig');
 
 var app = express();
 
@@ -41,6 +42,9 @@ mongoose.connect(config.database);
 app.use(require('./routes/anonymous-routes'));
 app.use(require('./routes/protected-routes'));
 app.use(require('./routes/user-routes'));
+
+app.use(require('./routes/proveedor-routes'));
+
 
 var port = process.env.PORT || 3001;
 
