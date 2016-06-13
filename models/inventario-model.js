@@ -1,5 +1,6 @@
 // Este modelo contiene todo el inventario de las sucursales
 
+
 // get an instance of mongoose and mongoose.Schema
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;

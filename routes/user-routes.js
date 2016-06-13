@@ -1,3 +1,6 @@
+//Rutas del API para Users
+//Creacion de session incluida aqui
+
 var express = require('express'),
     _       = require('lodash'),
     config  = require('../config'),
@@ -21,91 +24,6 @@ function createToken(user) {
     return jwt.sign(payload, config.secret, { expiresIn:86400 });
   //return jwt.sign(_.omit(user, 'password'), config.secret, { expiresIn:86400 });
 }
-
-var jwtCheck = exjwt({
-  secret: config.secret
-});
-
-//app.use('/users', jwtCheck);
-
-app.get('/users',function(req,res){
-    var user = new User();
-    
-    User.find(function(err,users){
-                if (err)
-                    res.send(err);
-                
-                res.json(users);
-            });
-    
-});
-
-app.post('/users', function(req, res) {
-    var user = new User();
-        
-    user.username = req.body.username;
-    user.password = req.body.password;
-    user.admin = req.body.admin;
-    user.privileges= req.body.privileges;
-    
-    
-    if (!user.username || !user.password) 
-        return res.status(400).send("You must send the username and the password");
-    else{
-       User.findOne({
-                username:req.body.username
-            },function(err,userFound){
-                //if(err)
-                    //return res.status(404).send(err);
-                    
-                if(userFound)
-                    return res.status(400).send("A user with that username already exists.");
-                else{
-                    user.save(function(err,user){
-                        if(err)
-                            return res.status(404).send(err);
-                            else{
-                                return res.status(201).send({success:true,message:'User created successfully.',id_token:createToken(user)});   
-                            }
-                    });
-                }
-            }); 
-    }
- app.get('/users')   
-});
-/*
-//Middleware for users/id
-app.use('users/:user_id',function(req,res,next){
-    // use our user model to find the user we want
-    User.findById(req.params.user_id,function(err,user){
-        if(err)
-            res.status(500).send(err);
-        else if(user){
-            req.user = user;
-            
-            next();
-        }else
-            res.status(404).send('No users found.');
-        
-    });
-    
-});
-*/
-app.get('/users/:user_id',function(req,res){
-    
-    User.findById(req.params.user_id,function(err,user){
-        if(err)
-            res.status(500).send(err);
-        else if(user){
-            //req.user = user;
-            
-            res.status(200).json(user);
-        }else
-            res.status(404).send('No users found.');
-        
-    });
-    
-});
 
 app.post('/sessions/create', function(req, res) {
     //return res.status(401).send("req~  username: "+req.body.username + " email: "+req.body.email+" pass: "+req.body.password);
@@ -145,3 +63,113 @@ app.post('/sessions/create', function(req, res) {
     }
     
 });
+
+var jwtCheck = exjwt({
+  secret: config.secret
+});
+
+//app.use('/users', jwtCheck);
+
+app.get('/users',function(req,res){
+    var user = new User();
+    
+    User.find(function(err,users){
+                if (err)
+                    res.send(err);
+                
+                res.status(200).json(users);
+            });
+    
+});
+
+app.post('/users', function(req, res) {
+    var user = new User();
+        
+    user.username = req.body.username;
+    user.password = req.body.password;
+    user.admin = req.body.admin;
+    user.privileges= req.body.privileges;
+    
+    
+    if (!user.username || !user.password) 
+        return res.status(400).send("You must send the username and the password");
+    else{
+       User.findOne({
+                username:req.body.username
+            },function(err,userFound){
+                //if(err)
+                    //return res.status(404).send(err);
+                    
+                if(userFound)
+                    return res.status(400).send("A user with that username already exists.");
+                else{
+                    user.save(function(err,user){
+                        if(err)
+                            return res.status(404).send(err);
+                            else{
+                                return res.status(201).send({success:true,message:'User created successfully.',id_token:createToken(user)});   
+                            }
+                    });
+                }
+            }); 
+    }
+ app.get('/users');   
+});
+/*
+//Middleware for users/id
+app.use('users/:user_id',function(req,res,next){
+    // use our user model to find the user we want
+    User.findById(req.params.user_id,function(err,user){
+        if(err)
+            res.status(500).send(err);
+        else if(user){
+            req.user = user;
+            
+            next();
+        }else
+            res.status(404).send('No users found.');
+        
+    });
+    
+});
+*/
+app.get('/users/:user_id',function(req,res){
+    
+    User.findById(req.params.user_id,function(err,user){
+        if(err)
+            res.status(500).send(err);
+        else if(user){
+            //req.user = user;
+            
+            res.status(200).json(user);
+        }else
+            res.status(404).send({success:true,message:'No se encontraron usuarios'});
+        
+    });
+    
+});
+
+app.delete('/users/:user_id',function(req,res) {
+    User.remove({
+        _id: req.params.user_id
+    }, function(err, user){
+        if (err)
+            res.status(500).send(err);
+        else    
+            res.status(200).send({success:true,message:'User borrado exitosamente'});           
+    });
+});
+
+app.put('/users/:user_id',function(req,res){
+    if (req.body.username){
+        res.status(500).send({success:false,message:'username no puede ser modificado'});
+        return;
+    }
+    User.findByIdAndUpdate(req.params.user_id,{$set:req.body},{new:true,runValidators:true}, function(err,user){
+        if(err)
+            res.status(500).send(err);
+        else
+            res.status(200).json(user);
+    });
+});
+

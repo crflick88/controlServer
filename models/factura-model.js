@@ -1,6 +1,7 @@
 //Este modelo contiene informacion de todas las facturas expedidas y emitidas
 //Nota: Es muy importante el 'tipo' de factura ya que eso determina si es factura expedida o emitida
 
+
 // get an instance of mongoose and mongoose.Schema
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;

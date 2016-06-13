@@ -1,5 +1,6 @@
 //Este modelo contiene el catalogo de los productos de se manejan
 
+
 // get an instance of mongoose and mongoose.Schema
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;

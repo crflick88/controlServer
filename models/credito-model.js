@@ -1,5 +1,6 @@
 //Este modelo contiene todos los creditos realizados a los cientes 
 
+
 // get an instance of mongoose and mongoose.Schema
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;

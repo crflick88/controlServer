@@ -1,5 +1,6 @@
 //Este modelo contiene la informacion de todas las entradas registradas a cada sucursal
 
+
 // get an instance of mongoose and mongoose.Schema
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;

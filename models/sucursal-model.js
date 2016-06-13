@@ -2,6 +2,7 @@
 // Este modelo no esta en uso, ha sido embebido directamente en los otros 
 // modelos para mejorar el procesamiento debido a que no es comun el cambio de este.
 
+
 // get an instance of mongoose and mongoose.Schema
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;

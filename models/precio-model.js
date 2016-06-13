@@ -1,6 +1,7 @@
 // Este modelo contiene el historial de precios
 // Registra una entrada cada vez que hay cambio del precio de algun producto
 
+
 // get an instance of mongoose and mongoose.Schema
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;

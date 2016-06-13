@@ -1,5 +1,6 @@
 //Este modelo contiene informacion de todos los Proveedores
 
+
 // get an instance of mongoose and mongoose.Schema
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
