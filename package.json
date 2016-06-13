@@ -1,0 +1,39 @@
+{
+  "name": "Control-Server",
+  "version": "0.1.0",
+  "description": "Control animal API",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/crflick88/controlServer.git"
+  },
+  "keywords": [
+    "todo",
+    "in",
+    "memory",
+    "jwt",
+    "auth0"
+  ],
+  "author": "Carlos Rdz Flick   ",
+  "license": "Flick Software",
+  "bugs": {
+    "url": "https://controlserver.herokuapp.com/issues"
+  },
+  "homepage": "https://controlserver.herokuapp.com/",
+  "dependencies": {
+    "body-parser": "^1.6.5",
+    "compression": "^1.0.11",
+    "cors": "^2.4.1",
+    "dotenv": "^2.0.0",
+    "errorhandler": "^1.1.1",
+    "express": "^4.8.5",
+    "express-jwt": "^3.3.0",
+    "jsonwebtoken": "^5.0.1",
+    "lodash": "^4.6.1",
+    "mongoose": "^4.4.10",
+    "morgan": "^1.2.3"
+  }
+}

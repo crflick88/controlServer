@@ -6,8 +6,8 @@ var logger          = require('morgan'),
     cors            = require('cors'),
     dotenv          = require('dotenv'),
     bodyParser      = require('body-parser'),
-    config          = require('./config');
-    //config          = require('./localConfig');
+    //config          = require('./config');
+    config          = require('./localConfig');
 
 var app = express();
 
