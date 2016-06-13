@@ -9,9 +9,9 @@ var Schema = mongoose.Schema;
 
 // set up a mongoose model
 var SucursalSchema = new Schema({
-    nombre: {type: String, required: true},
-    direccion: {type: {linea1:String,linea2:String,linea3:String}, default:{linea1:'',linea2:'',linea3:''}},
-    telefono: {type: String,  default:''}
+    nombre: {type: String, required: true}, //Nombre de la sucursal
+    direccion: {type: {linea1:String,linea2:String,linea3:String}, default:{linea1:'',linea2:'',linea3:''}}, //tres lineas de la direccion
+    telefono: {type: String,  default:''}   //telefono de la sucursal
 });
 
 // pass Schema using module.exports

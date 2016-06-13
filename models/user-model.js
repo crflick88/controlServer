@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 
 // set up a mongoose model
 var UserSchema = new Schema({
-    username: {type: String, required: true},
+    username: {type: String, required: true},   
     password: {type: String, required: true},
     privileges: [{type: String, enum:['canSell','isAdmin','canReport'], default:'canSell'}],
     admin:{type: Boolean, default:false}

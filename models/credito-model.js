@@ -7,13 +7,13 @@ var Schema = mongoose.Schema;
 
 // set up a mongoose model
 var CreditoSchema = new Schema({
-    folio: {type: Number, required: true},
-    fecha_entrega: {type: Date, required: true, default: Date.now},
-    fecha_cobro: {type: Date, required: true, default: +new Date() + 14*24*60*60*1000},
-    fecha_pago: {type: Date, required: false},
-    estatus: {type: String, required: true, enum: ['pendiente','pagado'], default: 'pendiente'},
-    cliente: mongoose.Schema.Types.ObjectId,
-    salida: mongoose.Schema.Types.ObjectId,
+    folio: {type: Number, required: true},      //folio (id) del  credito
+    fecha_entrega: {type: Date, default: Date.now}, //fecha de entrega del material al cliente
+    fecha_cobro: {type: Date, default: +new Date() + 14*24*60*60*1000}, //fecha en que debe ser cobrado el credito. dos semanas despues de la entrega
+    fecha_pago: {type: Date, required: false},  //fecha en que se efectuo el pago
+    estatus: {type: String, enum: ['pendiente','pagado'], default: 'pendiente'}, //estatus del pago
+    cliente: {type: mongoose.Schema.Types.ObjectId, required: false},    //object id del cliente
+    salida: {type: mongoose.Schema.Types.ObjectId, required: false},     //object id de la salida
 });
 
 // pass Schema using module.exports

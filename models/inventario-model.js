@@ -7,16 +7,16 @@ var Schema = mongoose.Schema;
 
 // set up a mongoose model: Sucursal
 var SucursalSchema = new Schema({
-    nombre: {type: String, required: true},
-    direccion: {type: {linea1:String,linea2:String,linea3:String}, default:{linea1:'',linea2:'',linea3:''}},
-    telefono: {type: String,  default:''}
+    nombre: {type: String, required: true}, //Nombre de la sucursal
+    direccion: {type: {linea1:String,linea2:String,linea3:String}, default:{linea1:'',linea2:'',linea3:''}}, //tres lineas de la direccion
+    telefono: {type: String,  default:''}   //telefono de la sucursal
 });
 
 // set up a mongoose model
 var InventarioSchema = new Schema({
-    cantidad: {type: Number, required: true},
-    producto: mongoose.Schema.Types.ObjectId,
-    sucursal: SucursalSchema
+    cantidad: {type: Number, required: true},   //cantidad de productos, no importan las unidades ni la precentacion. ej: costal de minerales 20kg
+    producto: {type: mongoose.Schema.Types.ObjectId, required: true},   //Object id de un producto
+    sucursal: {type: SucursalSchema, required: true}                    //schema completo de una sucursal
 });
 
 // pass Schema using module.exports

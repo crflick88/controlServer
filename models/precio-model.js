@@ -8,9 +8,9 @@ var Schema = mongoose.Schema;
 
 // set up a mongoose model
 var PrecioSchema = new Schema({
-    nombre: {type: String, required: true},
-    precio: {type: Number,  default:0},
-    tipo: {type: String, required: true, enum:['compra','venta']},
+    nombre: {type: String, required: true}, //nombre del producto +unidades+precentacion. ej: costal minerales 20kg 
+    precio: {type: Number,  default:0},     //precio del producto
+    tipo: {type: String, required: true, enum:['compra','venta']}, //tipo de precio
 });
 
 // pass Schema using module.exports
