@@ -1,5 +1,5 @@
-//Este modelo contiene la informacion de todas las entradas registradas a cada sucursal
-
+// Este modelo contiene la informacion de todas las entradas registradas a cada sucursal
+// clave primaria: folio
 
 // get an instance of mongoose and mongoose.Schema
 var mongoose = require('mongoose');
@@ -12,15 +12,19 @@ var SucursalSchema = new Schema({
     telefono: {type: String,  default:''}   //telefono de la sucursal
 });
 
+var Proveedor = require('../models/proveedor-model');
+var Producto = require('../models/producto-model');
+
 // set up a mongoose model
 var EntradaSchema = new Schema({
-    folio: {type: Number, required: true},      //folio (id) de la entrada
+    folio: {type: Number, unique: true, required: true},      //folio (id) de la entrada
     fecha: {type: Date, default: Date.now},     //fecha de la entrada a inventario    
     productos :{type:[{ //arreglo de productos que contienen info del producto y cantidad que entra
         cantidad: {type: Number, required: true},   //cantidad de productos (no importan las unidades ni las precentaciones) ej, costal minerales 20kg
-        producto: {type: mongoose.Schema.Types.ObjectId, required: true} //Object id de un producto
+        producto: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Producto'} //Object id de un producto
     }], required: true},
-    sucursal: SucursalSchema                    //schema completo de sucursal
+    sucursal: {type: SucursalSchema, required: true}, //schema completo de sucursal
+    proveedor: {type: mogoose.Schema.Types.ObjectId, required:true, ref: 'Proveedor'} //referencia a un proveedor
 });
 
 // pass Schema using module.exports

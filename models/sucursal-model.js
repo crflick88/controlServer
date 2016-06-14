@@ -1,6 +1,8 @@
 // Este modelo contiene todas las sucursales donde se almacenan productos
 // Este modelo no esta en uso, ha sido embebido directamente en los otros 
 // modelos para mejorar el procesamiento debido a que no es comun el cambio de este.
+// Este modelo fue desnormalizado en varios modelos.
+// clave primaria: nombre
 
 
 // get an instance of mongoose and mongoose.Schema

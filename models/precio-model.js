@@ -1,5 +1,6 @@
 // Este modelo contiene el historial de precios
 // Registra una entrada cada vez que hay cambio del precio de algun producto
+//clave primaria: id
 
 
 // get an instance of mongoose and mongoose.Schema
@@ -8,9 +9,10 @@ var Schema = mongoose.Schema;
 
 // set up a mongoose model
 var PrecioSchema = new Schema({
-    nombre: {type: String, required: true}, //nombre del producto +unidades+precentacion. ej: costal minerales 20kg 
-    precio: {type: Number,  default:0},     //precio del producto
-    tipo: {type: String, required: true, enum:['compra','venta']}, //tipo de precio
+    nombre: {type: String, required: true},     //nombre del producto +unidades+precentacion. ej: costal minerales 20kg 
+    precio: {type: Number,  default:0},         //precio del producto
+    fecha:  {type: Date, default: Date.now},    //fecha en que cambia el precio  
+    tipo: {type: String, required: true, enum:['compra','venta']} //tipo de precio
 });
 
 // pass Schema using module.exports

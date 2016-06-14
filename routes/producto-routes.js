@@ -18,12 +18,11 @@ app.get('/productos',function(req,res){
     var producto = new Producto();
     
     Producto.find(function(err,productos){
-                if (err)
-                    res.send(err);
-                
-                res.status(200).json(productos);
-            });
-    
+        if (err)
+            res.send(err);
+        
+        res.status(200).json(productos);
+    });
 });
 
 app.post('/productos', function(req, res) {
@@ -34,6 +33,7 @@ app.post('/productos', function(req, res) {
     producto.presentacion = req.body.presentacion;
     producto.precio_venta = req.body.precio_venta;
     producto.precio_compra = req.body.precio_compra;
+    producto.cantidad = req.body.cantidad;
         
     Producto.findOne({
             nombre:req.body.nombre, presentacion: req.body.presentacion, unidades: req.body.unidades

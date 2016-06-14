@@ -1,5 +1,6 @@
-//Este modelo contiene informacion de todos los Proveedores
-
+// Este modelo contiene informacion de todos los Proveedores
+// clave primaria: id/nombre 
+// valores unicos: rfc no se repite
 
 // get an instance of mongoose and mongoose.Schema
 var mongoose = require('mongoose');
@@ -12,7 +13,7 @@ var ProveedorSchema = new Schema({
     direccion: {type: {linea1:String,linea2:String,linea3:String}, default:{linea1:'',linea2:'',linea3:''}}, //tres lineas para direccion
     email: {type: String,  default:''},     //email del proveedor
     telefono: {type: String,  default:''},  //telefono del proveedor
-    rfc: {type: String,  default:''}        //rfc del proveedor
+    rfc: {type: String,  default:'', unique: true}        //rfc del proveedor
 });
 
 // pass Schema using module.exports
