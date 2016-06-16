@@ -3,7 +3,6 @@ var logger          = require('morgan'),
     http            = require('http'),
     express         = require('express'),
     errorhandler    = require('errorhandler'),
-    cors            = require('cors'),
     dotenv          = require('dotenv'),
     bodyParser      = require('body-parser'),
     config          = require('./config');
@@ -31,7 +30,7 @@ app.use(function(err, req, res, next) {
 
 if (process.env.NODE_ENV === 'development') {
   app.use(logger('dev'));
-  app.use(errorhandler())
+  app.use(errorhandler());
 }
 // BASE SETUP
 // =============================================================================
