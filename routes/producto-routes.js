@@ -17,7 +17,18 @@ var jwtCheck = jwt({
 app.get('/productos',function(req,res){
     var producto = new Producto();
     
-    Producto.find(function(err,productos){
+    Producto.find({"sucursal":null},function(err,productos){
+        if (err)
+            res.send(err);
+        
+        res.status(200).json(productos);
+    });
+});
+
+app.get('/productos/sucursal',function(req,res){
+    var producto = new Producto();
+    
+    Producto.find({"sucursal":{$exists:true}},function(err,productos){
         if (err)
             res.send(err);
         
@@ -34,7 +45,8 @@ app.post('/productos', function(req, res) {
     producto.precio_venta = req.body.precio_venta;
     producto.precio_compra = req.body.precio_compra;
     producto.cantidad = req.body.cantidad;
-        
+    producto.sucursal = req.body.sucursal;
+    
     Producto.findOne({
             nombre:req.body.nombre, presentacion: req.body.presentacion, unidades: req.body.unidades
         },function(err,productoFound){
