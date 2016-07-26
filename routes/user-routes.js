@@ -5,7 +5,7 @@ var express = require('express'),
     _       = require('lodash'),
     config  = require('../config'),
     jwt     = require('jsonwebtoken'),
-    mongoose= require('mongoose');
+    mongoose= require('mongoose'),
     exjwt     = require('express-jwt');
 
 var app = module.exports = express.Router();
@@ -38,7 +38,7 @@ app.post('/sessions/create', function(req, res) {
                 //username:req.body.username
             },function(err,user){
                 if(err)
-                    return res.status(404).send(err);
+                    return res.status(500).send(err);
                 else{
                     if(!user){
                         var msg = req.body.email;
@@ -71,13 +71,13 @@ var jwtCheck = exjwt({
 //app.use('/users', jwtCheck);
 
 app.get('/users',function(req,res){
-    var user = new User();
+    //var user = new User();
     
     User.find(function(err,users){
                 if (err)
-                    res.send(err);
-                
-                res.status(200).json(users);
+                    res.status(500).send(err);
+                else
+                    res.status(200).json(users);
             });
     
 });
@@ -97,10 +97,9 @@ app.post('/users', function(req, res) {
        User.findOne({
                 username:req.body.username
             },function(err,userFound){
-                //if(err)
-                    //return res.status(404).send(err);
-                    
-                if(userFound)
+                if(err)
+                    return res.status(500).send(err);
+                else if(userFound)
                     return res.status(400).send("A user with that username already exists.");
                 else{
                     user.save(function(err,user){
@@ -168,6 +167,8 @@ app.put('/users/:user_id',function(req,res){
     User.findByIdAndUpdate(req.params.user_id,{$set:req.body},{new:true,runValidators:true}, function(err,user){
         if(err)
             res.status(500).send(err);
+        else if(!user)
+            res.status(404).send({success:false,message:'No se encontraron usuarios.'});
         else
             res.status(200).json(user);
     });

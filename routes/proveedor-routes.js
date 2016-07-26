@@ -13,13 +13,13 @@ var jwtCheck = jwt({
 //app.use('/proveedores', jwtCheck);
 
 app.get('/proveedores',function(req,res){
-    var proveedor = new Proveedor();
+    //var proveedor = new Proveedor();
     
     Proveedor.find(function(err,proveedores){
                 if (err)
-                    res.send(err);
-                
-                res.status(200).json(proveedores);
+                    res.status(500).send(err);
+                else
+                    res.status(200).json(proveedores);
             });
     
 });
@@ -37,10 +37,9 @@ app.post('/proveedores', function(req, res) {
     Proveedor.findOne({
             nombre:req.body.nombre
         },function(err,proveedorFound){
-            //if(err)
-                //return res.status(404).send(err);
-                
-            if(proveedorFound)
+            if(err)
+                return res.status(404).send(err);
+            else if(proveedorFound)
                 return res.status(400).send("Ese proveedor ya existe.");
             else{
                 proveedor.save(function(err,proveedor){
@@ -89,6 +88,8 @@ app.put('/proveedores/:proveedor_id',function(req,res){
     Proveedor.findByIdAndUpdate(req.params.proveedor_id,{$set:req.body},{new:true,runValidators:true}, function(err,proveedor){
         if(err)
             res.status(500).send(err);
+        else if(!proveedor)
+            res.status(404).send({success:false,message:'No se encontraron proveedores.'});
         else
             res.status(200).json(proveedor);
     });

@@ -15,13 +15,13 @@ var jwtCheck = jwt({
 //app.use('/clientes', jwtCheck);
 
 app.get('/clientes',function(req,res){
-    var cliente = new Cliente();
+    //var cliente = new Cliente();
     
     Cliente.find(function(err,clientes){
                 if (err)
-                    res.send(err);
-                
-                res.status(200).json(clientes);
+                    res.status(500).send(err);
+                else
+                    res.status(200).json(clientes);
             });
     
 });
@@ -39,10 +39,9 @@ app.post('/clientes', function(req, res) {
     Cliente.findOne({
             nombre:req.body.nombre
         },function(err,clienteFound){
-            //if(err)
-                //return res.status(404).send(err);
-                
-            if(clienteFound)
+            if(err)
+                return res.status(500).send(err);
+            else if(clienteFound)
                 return res.status(400).send("Ese cliente ya existe.");
             else{
                 cliente.save(function(err,cliente){
@@ -91,6 +90,8 @@ app.put('/clientes/:cliente_id',function(req,res){
     Cliente.findByIdAndUpdate(req.params.cliente_id,{$set:req.body},{new:true,runValidators:true}, function(err,cliente){
         if(err)
             res.status(500).send(err);
+        else if(!cliente)
+            res.status(404).send({success:false,message:'No se encontraron clientes.'});
         else
             res.status(200).json(cliente);
     });

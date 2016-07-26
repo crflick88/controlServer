@@ -2,8 +2,7 @@
 
 var express = require('express'),
     jwt     = require('express-jwt'),
-    config  = require('../config'),
-    quoter  = require('../models/quoter');
+    config  = require('../config');
 
 var app = module.exports = express.Router();
 
@@ -16,13 +15,13 @@ var jwtCheck = jwt({
 //app.use('/fatura', jwtCheck);
 
 app.get('/facturas',function(req,res){
-    var factura = new Factura();
+    //var factura = new Factura();
     
     Factura.find(function(err,facturas){
                 if (err)
-                    res.send(err);
-                
-                res.status(200).json(facturas);
+                    res.status(500).send(err);
+                else
+                    res.status(200).json(facturas);
             });
     
 });
@@ -41,10 +40,9 @@ app.post('/facturas', function(req, res) {
     Factura.findOne({
             folio:req.body.folio, tipo:req.body.tipo
         },function(err,facturaFound){
-            //if(err)
-                //return res.status(404).send(err);
-                
-            if(facturaFound)
+            if(err)
+                return res.status(500).send(err);
+            else if(facturaFound)
                 return res.status(400).send("Esa factura ya existe.");
             else{
                 factura.monto=0.0;
@@ -126,6 +124,8 @@ app.put('/facturas/:factura_id',function(req,res){
     Factura.findByIdAndUpdate(req.params.factura_id,{$set:req.body},{new:true,runValidators:true}, function(err,factura){
         if(err)
             res.status(500).send(err);
+        else if(!factura)
+            res.status(404).send({success:false,message:'No se encontraron facturas.'});
         else
             res.status(200).json(factura);
     });

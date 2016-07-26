@@ -15,24 +15,37 @@ var jwtCheck = jwt({
 //app.use('/productos', jwtCheck);
 
 app.get('/productos',function(req,res){
-    var producto = new Producto();
+    //var producto = new Producto();
     
     Producto.find({"sucursal":null},function(err,productos){
         if (err)
-            res.send(err);
-        
-        res.status(200).json(productos);
+            res.status(500).send(err);
+        else 
+            res.status(200).json(productos);
     });
 });
 
-app.get('/productos/sucursal',function(req,res){
-    var producto = new Producto();
+//Regresa todos los productos sin repetir por sucursal, basicamente el catalogo de productos
+app.get('/productos/catalogo',function(req,res){
+    //var producto = new Producto();
     
-    Producto.find({"sucursal":{$exists:true}},function(err,productos){
+    Producto.find({"sucursal":{$exists:true}}, 'sucursal.nombre',function(err,productos){
         if (err)
-            res.send(err);
-        
-        res.status(200).json(productos);
+            res.status(500).send(err);
+        else
+            res.status(200).json(productos);
+    });
+});
+
+//Regresa los productos que hay en cierta sucursal
+app.get('/productos/inventario/:sucursal_id',function(req,res){
+    //var producto = new Producto();
+    
+    Producto.find({"sucursal":{$exists:true}}, 'sucursal.nombre',function(err,productos){
+        if (err)
+            res.status(500).send(err);
+        else
+            res.status(200).json(productos);
     });
 });
 
@@ -50,10 +63,9 @@ app.post('/productos', function(req, res) {
     Producto.findOne({
             nombre:req.body.nombre, presentacion: req.body.presentacion, unidades: req.body.unidades
         },function(err,productoFound){
-            //if(err)
-                //return res.status(404).send(err);
-                
-            if(productoFound)
+            if(err)
+                return res.status(500).send(err);
+            else if(productoFound)
                 return res.status(400).send(productoFound.nombre+" "+productoFound.presentacion+productoFound.unidades+" ya existe.");
             else{
                 producto.save(function(err,producto){
@@ -102,6 +114,8 @@ app.put('/productos/:producto_id',function(req,res){
     Producto.findByIdAndUpdate(req.params.producto_id,{$set:req.body},{new:true,runValidators:true}, function(err,producto){
         if(err)
             res.status(500).send(err);
+        else if(!producto)
+            res.status(404).send({success:false,message:'No se encontraron productos.'});
         else
             res.status(200).json(producto);
     });

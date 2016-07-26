@@ -45,12 +45,16 @@ app.use(require('./routes/user-routes'));
 app.use(require('./routes/proveedor-routes'));
 app.use(require('./routes/cliente-routes'));
 app.use(require('./routes/factura-routes'));
+app.use(require('./routes/sucursal-routes'));
 app.use(require('./routes/producto-routes'));
 
 var port = process.env.PORT || 3001;
 
 http.createServer(app).listen(port, function (err) {
-  console.log('listening in http://localhost:' + port);
+  if(err)
+    console.log('error launching http://localhost:' + port);
+  else  
+    console.log('listening in http://localhost:' + port);
 });
 
 
