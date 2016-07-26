@@ -13,7 +13,7 @@ var Producto = require('../models/producto-model');
 var FacturaSchema = new Schema({
     folio: {type: String, required: true, unique: true}, // folio de la factura, valor unico si es emitida por nosotros
     fecha: {type: Date, default: Date.now}, // fecha de remision
-    cliente: {type: mogoose.Schema.Types.ObjectId, required:true, ref: 'Cliente'} //referencia a un proveedor
+    cliente: {type: mongoose.Schema.Types.ObjectId, required:true, ref: 'Cliente'}, //referencia a un proveedor
     productos:{type:[{ //arreglo de productos que contienen info del producto y cantidad que entra
         cantidad: {type: Number, required: true},   //cantidad de productos (no importan las unidades ni las precentaciones) ej, costal minerales 20kg
         producto: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Producto'} //Object id de un producto

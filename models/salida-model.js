@@ -29,10 +29,10 @@ var SalidaSchema = new Schema({
         producto: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Producto'} //Object id de un producto
     }], required: true},
     //sucursal: {type: SucursalSchema, required: true}, //schema completo de sucursal
-    sucursal: {type: mogoose.Schema.Types.ObjectId, required:true, ref: 'Sucursal'} //referencia a un proveedor
+    sucursal: {type: mongoose.Schema.Types.ObjectId, required:true, ref: 'Sucursal'}, //referencia a un proveedor
     tipo: {type: String, required: true, enum: ['venta','credito','transferencia']}, //tipo de salida. si es credito se agrega un nuevo credito en la coleccion de creditos
-    cliente: {type: mogoose.Schema.Types.ObjectId, required:true, ref: 'Cliente'},
-    facturaExpedida: {type: mogoose.Schema.Types.ObjectId, required:false, ref: 'FacturaExpedida'}
+    cliente: {type: mongoose.Schema.Types.ObjectId, required:true, ref: 'Cliente'},
+    facturaExpedida: {type: mongoose.Schema.Types.ObjectId, required:false, ref: 'FacturaExpedida'}
 });
 
 

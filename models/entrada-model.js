@@ -26,9 +26,9 @@ var EntradaSchema = new Schema({
         producto: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Producto'} //Object id de un producto
     }], required: true},
     //sucursal: {type: SucursalSchema, required: true}, //schema completo de sucursal
-    sucursal: {type: mogoose.Schema.Types.ObjectId, required:true, ref: 'Sucursal'} //referencia a un proveedor
-    proveedor: {type: mogoose.Schema.Types.ObjectId, required:true, ref: 'Proveedor'}, //referencia a un proveedor
-    facturaRecibida: {type: mogoose.Schema.Types.ObjectId, required:false, ref: 'FacturaRecibida'}
+    sucursal: {type: mongoose.Schema.Types.ObjectId, required:true, ref: 'Sucursal'}, //referencia a un proveedor
+    proveedor: {type: mongoose.Schema.Types.ObjectId, required:true, ref: 'Proveedor'}, //referencia a un proveedor
+    facturaRecibida: {type: mongoose.Schema.Types.ObjectId, required:false, ref: 'FacturaRecibida'}
 });
 
 // pass Schema using module.exports
