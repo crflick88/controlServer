@@ -1,26 +1,18 @@
-// Este modelo contiene todo el inventario de las sucursales
-// \\Este modelo ha sido desnormalizado dentro del modelo producto. 
+// Este modelo contiene todo el conteo del inventario por sucursales
 // clave primaria: id
 
 // get an instance of mongoose and mongoose.Schema
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-// set up a mongoose model: Sucursal -- Not in use
-var SucursalSchema = new Schema({
-    nombre: {type: String, required: true}, //Nombre de la sucursal
-    direccion: {type: {linea1:String,linea2:String,linea3:String}, default:{linea1:'',linea2:'',linea3:''}}, //tres lineas de la direccion
-    telefono: {type: String,  default:''}   //telefono de la sucursal
-});
-
 var Producto = require('../models/producto-model');
 var Sucursal = require('../models/sucursal-model');
 
 // set up a mongoose model
 var InventarioSchema = new Schema({
+    fecha: {type: Date, default: Date.now},             //fecha del conteo  
     cantidad: {type: Number, required: true},           //cantidad de productos, no importan las unidades ni la precentacion. ej: 10 costal de minerales 20kg
     producto: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Producto'},   //Object id de un producto
-    //sucursal: {type: SucursalSchema, required: true}    //schema completo de una sucursal
     sucursal: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Sucursal'}   //Object id de una sucursal
 });
 

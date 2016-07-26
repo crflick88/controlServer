@@ -8,7 +8,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-// set up a mongoose model: Sucursal
+// set up a mongoose model: Sucursal -- Not in use
 var SucursalSchema = new Schema({
     nombre: {type: String, required: true}, //Nombre de la sucursal
     direccion: {type: {linea1:String,linea2:String,linea3:String}, default:{linea1:'',linea2:'',linea3:''}}, //tres lineas de la direccion
@@ -17,6 +17,8 @@ var SucursalSchema = new Schema({
 
 var Cliente = require('../models/cliente-model');
 var Producto = require('../models/producto-model');
+var Sucursal = require('../models/sucursal-model');
+var FacturaExpedida = require('../models/facturaExpedia-model');
 
 // set up a mongoose model
 var SalidaSchema = new Schema({
@@ -24,14 +26,15 @@ var SalidaSchema = new Schema({
     fecha: {type: Date, default: Date.now},         //fecha de salida
     productos :{type:[{ //arreglo de productos que contienen info del producto y cantidad que entra
         cantidad: {type: Number, required: true},   //cantidad de productos (no importan las unidades ni las precentaciones) ej, costal minerales 20kg
-        producto: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Producto'}, //referencia de un producto
-        precio: {type: Number, required: true},     //precio total por producto
-        comision: {type: Number, default: 0}        // comisione en pesos por producto
+        producto: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Producto'} //Object id de un producto
     }], required: true},
-    sucursal: {type: SucursalSchema, required: true},// schema completo de una sucursal
+    //sucursal: {type: SucursalSchema, required: true}, //schema completo de sucursal
+    sucursal: {type: mogoose.Schema.Types.ObjectId, required:true, ref: 'Sucursal'} //referencia a un proveedor
     tipo: {type: String, required: true, enum: ['venta','credito','transferencia']}, //tipo de salida. si es credito se agrega un nuevo credito en la coleccion de creditos
-    cliente: {type: mogoose.Schema.Types.ObjectId, required:true, ref: 'Cliente'}
+    cliente: {type: mogoose.Schema.Types.ObjectId, required:true, ref: 'Cliente'},
+    facturaExpedida: {type: mogoose.Schema.Types.ObjectId, required:false, ref: 'FacturaExpedida'}
 });
+
 
 // pass Schema using module.exports
 module.exports = mongoose.model('Salida',SalidaSchema);

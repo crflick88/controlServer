@@ -5,7 +5,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-// set up a mongoose model: Sucursal
+// set up a mongoose model: Sucursal -- Not in use
 var SucursalSchema = new Schema({
     nombre: {type: String, required: true}, //Nombre de la sucursal
     direccion: {type: {linea1:String,linea2:String,linea3:String}, default:{linea1:'',linea2:'',linea3:''}}, //tres lineas de la direccion
@@ -14,6 +14,8 @@ var SucursalSchema = new Schema({
 
 var Proveedor = require('../models/proveedor-model');
 var Producto = require('../models/producto-model');
+var Sucursal = require('../models/sucursal-model');
+var FacturaRecibida = require('../models/facturaRecibida-model');
 
 // set up a mongoose model
 var EntradaSchema = new Schema({
@@ -23,8 +25,10 @@ var EntradaSchema = new Schema({
         cantidad: {type: Number, required: true},   //cantidad de productos (no importan las unidades ni las precentaciones) ej, costal minerales 20kg
         producto: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Producto'} //Object id de un producto
     }], required: true},
-    sucursal: {type: SucursalSchema, required: true}, //schema completo de sucursal
-    proveedor: {type: mogoose.Schema.Types.ObjectId, required:true, ref: 'Proveedor'} //referencia a un proveedor
+    //sucursal: {type: SucursalSchema, required: true}, //schema completo de sucursal
+    sucursal: {type: mogoose.Schema.Types.ObjectId, required:true, ref: 'Sucursal'} //referencia a un proveedor
+    proveedor: {type: mogoose.Schema.Types.ObjectId, required:true, ref: 'Proveedor'}, //referencia a un proveedor
+    facturaRecibida: {type: mogoose.Schema.Types.ObjectId, required:false, ref: 'FacturaRecibida'}
 });
 
 // pass Schema using module.exports

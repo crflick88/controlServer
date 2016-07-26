@@ -7,9 +7,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var Producto = require('../models/producto-model');
+
 // set up a mongoose model
 var PrecioSchema = new Schema({
-    nombre: {type: String, required: true},     //nombre del producto +unidades+precentacion. ej: costal minerales 20kg 
+    producto: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Producto'} //Object id de un producto
     precio: {type: Number,  default:0},         //precio del producto
     fecha:  {type: Date, default: Date.now},    //fecha en que cambia el precio  
     tipo: {type: String, required: true, enum:['compra','venta']} //tipo de precio
