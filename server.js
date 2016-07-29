@@ -50,6 +50,7 @@ app.use(require('./routes/producto-routes'));
 app.use(require('./routes/inventario-routes'));
 app.use(require('./routes/precio-routes'));
 app.use(require('./routes/conteo-routes'));
+app.use(require('./routes/deposito-routes'));
 
 var port = process.env.PORT || 3001;
 
