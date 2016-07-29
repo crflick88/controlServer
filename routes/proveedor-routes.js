@@ -13,14 +13,18 @@ var jwtCheck = jwt({
 //app.use('/proveedores', jwtCheck);
 
 app.get('/proveedores',function(req,res){
-    //var proveedor = new Proveedor();
-    
-    Proveedor.find(function(err,proveedores){
-                if (err)
-                    res.status(500).send(err);
-                else
-                    res.status(200).json(proveedores);
-            });
+    var sort = "";
+    if (req.query.hasOwnProperty('sort')){
+        sort = req.query.sort;
+        delete req.query["sort"];
+    }
+
+    Proveedor.find(req.query).sort(sort).exec(function(err,proveedores){
+        if (err)
+            res.status(500).send(err);
+        else 
+            res.status(200).json(proveedores);
+    });
     
 });
 
@@ -38,7 +42,7 @@ app.post('/proveedores', function(req, res) {
             nombre:req.body.nombre
         },function(err,proveedorFound){
             if(err)
-                return res.status(404).send(err);
+                return res.status(500).send(err);
             else if(proveedorFound)
                 return res.status(400).send("Ese proveedor ya existe.");
             else{

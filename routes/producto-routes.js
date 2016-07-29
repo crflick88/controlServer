@@ -15,36 +15,16 @@ var jwtCheck = jwt({
 //app.use('/productos', jwtCheck);
 
 app.get('/productos',function(req,res){
-    //var producto = new Producto();
-    
-    Producto.find({"sucursal":null},function(err,productos){
+    var sort = "";
+    if (req.query.hasOwnProperty('sort')){
+        sort = req.query.sort;
+        delete req.query["sort"];
+    }
+
+    Producto.find(req.query).sort(sort).exec(function(err,productos){
         if (err)
             res.status(500).send(err);
         else 
-            res.status(200).json(productos);
-    });
-});
-
-//Regresa todos los productos sin repetir por sucursal, basicamente el catalogo de productos
-app.get('/productos/catalogo',function(req,res){
-    //var producto = new Producto();
-    
-    Producto.find({"sucursal":{$exists:true}}, 'sucursal.nombre',function(err,productos){
-        if (err)
-            res.status(500).send(err);
-        else
-            res.status(200).json(productos);
-    });
-});
-
-//Regresa los productos que hay en cierta sucursal
-app.get('/productos/inventario/:sucursal_id',function(req,res){
-    //var producto = new Producto();
-    
-    Producto.find({"sucursal":{$exists:true}}, 'sucursal.nombre',function(err,productos){
-        if (err)
-            res.status(500).send(err);
-        else
             res.status(200).json(productos);
     });
 });
@@ -57,8 +37,8 @@ app.post('/productos', function(req, res) {
     producto.presentacion = req.body.presentacion;
     producto.precio_venta = req.body.precio_venta;
     producto.precio_compra = req.body.precio_compra;
-    producto.cantidad = req.body.cantidad;
-    producto.sucursal = req.body.sucursal;
+    //producto.cantidad = req.body.cantidad;
+    producto.iva = req.body.iva;
     
     Producto.findOne({
             nombre:req.body.nombre, presentacion: req.body.presentacion, unidades: req.body.unidades
@@ -70,7 +50,7 @@ app.post('/productos', function(req, res) {
             else{
                 producto.save(function(err,producto){
                     if(err)
-                        return res.status(404).send(err);
+                        return res.status(500).send(err);
                         else{
                             return res.status(201).send({success:true,message:'Producto creado exitosamente.'});   
                         }

@@ -47,6 +47,8 @@ app.use(require('./routes/cliente-routes'));
 app.use(require('./routes/factura-routes'));
 app.use(require('./routes/sucursal-routes'));
 app.use(require('./routes/producto-routes'));
+app.use(require('./routes/inventario-routes'));
+app.use(require('./routes/precio-routes'));
 
 var port = process.env.PORT || 3001;
 

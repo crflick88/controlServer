@@ -15,14 +15,18 @@ var jwtCheck = jwt({
 //app.use('/clientes', jwtCheck);
 
 app.get('/clientes',function(req,res){
-    //var cliente = new Cliente();
-    
-    Cliente.find(function(err,clientes){
-                if (err)
-                    res.status(500).send(err);
-                else
-                    res.status(200).json(clientes);
-            });
+    var sort = "";
+    if (req.query.hasOwnProperty('sort')){
+        sort = req.query.sort;
+        delete req.query["sort"];
+    }
+
+    Cliente.find(req.query).sort(sort).exec(function(err,clientes){
+        if (err)
+            res.status(500).send(err);
+        else 
+            res.status(200).json(clientes);
+    });
     
 });
 
@@ -46,10 +50,10 @@ app.post('/clientes', function(req, res) {
             else{
                 cliente.save(function(err,cliente){
                     if(err)
-                        return res.status(404).send(err);
-                        else{
-                            return res.status(201).send({success:true,message:'Cliente creado exitosamente.'});   
-                        }
+                        return res.status(500).send(err);
+                    else{
+                        return res.status(201).send({success:true,message:'Cliente creado exitosamente.'});   
+                    }
                 });
             }
         }); 

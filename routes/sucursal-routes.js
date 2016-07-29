@@ -15,14 +15,18 @@ var jwtCheck = jwt({
 //app.use('/sucursales', jwtCheck);
 
 app.get('/sucursales',function(req,res){
-    //var sucursal = new Sucursal();
-    
-    Sucursal.find(function(err,sucursales){
-                if (err)
-                    res.status(500).send(err);
-                else
-                    res.status(200).json(sucursales);
-            });
+    var sort = "";
+    if (req.query.hasOwnProperty('sort')){
+        sort = req.query.sort;
+        delete req.query["sort"];
+    }
+
+    Sucursal.find(req.query).sort(sort).exec(function(err,sucursales){
+        if (err)
+            res.status(500).send(err);
+        else 
+            res.status(200).json(sucursales);
+    });
     
 });
 

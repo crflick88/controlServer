@@ -71,14 +71,18 @@ var jwtCheck = exjwt({
 //app.use('/users', jwtCheck);
 
 app.get('/users',function(req,res){
-    //var user = new User();
-    
-    User.find(function(err,users){
-                if (err)
-                    res.status(500).send(err);
-                else
-                    res.status(200).json(users);
-            });
+    var sort = "";
+    if (req.query.hasOwnProperty('sort')){
+        sort = req.query.sort;
+        delete req.query["sort"];
+    }
+
+    User.find(req.query).sort(sort).exec(function(err,users){
+        if (err)
+            res.status(500).send(err);
+        else 
+            res.status(200).json(users);
+    });
     
 });
 
@@ -104,7 +108,7 @@ app.post('/users', function(req, res) {
                 else{
                     user.save(function(err,user){
                         if(err)
-                            return res.status(404).send(err);
+                            return res.status(500).send(err);
                             else{
                                 return res.status(201).send({success:true,message:'User created successfully.',id_token:createToken(user)});   
                             }
