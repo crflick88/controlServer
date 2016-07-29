@@ -5,11 +5,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var FacturaExpedida = require('../models/facturaExpedia-model');
+//var FacturaExpedida = require('../models/facturaExpedia-model');
 
 // set up a mongoose model
 var DepositoSchema = new Schema({
-    folio: {type: String, required: true},          //folio del deposito, numero de confirmacion de transferencia
+    folio: {type: String, required: true, unique: true},          //folio del deposito, numero de confirmacion de transferencia
     fecha: {type: Date, default: Date.now},          //fecha del deposito  
     monto: {type: Number, required: true},           //monto depositado
     facturaExpedida: {type: mongoose.Schema.Types.ObjectId, required:false, ref: 'FacturaExpedida'}

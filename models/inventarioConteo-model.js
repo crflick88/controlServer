@@ -5,8 +5,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Producto = require('../models/producto-model');
-var Sucursal = require('../models/sucursal-model');
+//var Producto = require('../models/producto-model');
+//var Sucursal = require('../models/sucursal-model');
 
 // set up a mongoose model
 var InventarioConteoSchema = new Schema({

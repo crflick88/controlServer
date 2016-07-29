@@ -6,8 +6,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Proveedor = require('../models/proveedor-model');
-var Producto = require('../models/producto-model');
+//var Proveedor = require('../models/proveedor-model');
+//var Producto = require('../models/producto-model');
 
 // set up a mongoose model
 var FacturaRecibidaSchema = new Schema({

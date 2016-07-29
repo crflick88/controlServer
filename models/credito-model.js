@@ -5,8 +5,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Cliente = require('../models/clientes-model');
-var Salida = require('../models/salida-model');
+//var Cliente = require('../models/clientes-model');
+//var Salida = require('../models/salida-model');
 
 // set up a mongoose model
 var CreditoSchema = new Schema({

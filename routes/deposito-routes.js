@@ -41,6 +41,21 @@ app.get('/depositos',function(req,res){
         req.query.fecha = fecha;
     }
 
+    //search by facturaExpedida exist or not
+    if (req.query.hasOwnProperty('facturaExpedida')){
+
+        var facturaExpedida = 
+        { 
+            $exists: JSON.parse(req.query.facturaExpedida)
+        };
+
+        delete req.query["facturaExpedida"];
+
+        req.query.facturaExpedida = facturaExpedida;
+
+        //console.log("req: "+ JSON.stringify(req.query));
+    }
+
     Deposito.find(req.query).sort(sort).exec(function(err,depositos){
         if (err)
             res.status(500).send(err);

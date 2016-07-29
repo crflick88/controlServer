@@ -8,17 +8,10 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-// set up a mongoose model: Sucursal -- Not in use
-var SucursalSchema = new Schema({
-    nombre: {type: String, required: true}, //Nombre de la sucursal
-    direccion: {type: {linea1:String,linea2:String,linea3:String}, default:{linea1:'',linea2:'',linea3:''}}, //tres lineas de la direccion
-    telefono: {type: String,  default:''}   //telefono de la sucursal
-});
-
-var Cliente = require('../models/cliente-model');
-var Producto = require('../models/producto-model');
-var Sucursal = require('../models/sucursal-model');
-var FacturaExpedida = require('../models/facturaExpedia-model');
+//var Cliente = require('../models/cliente-model');
+//var Producto = require('../models/producto-model');
+//var Sucursal = require('../models/sucursal-model');
+//var FacturaExpedida = require('../models/facturaExpedia-model');
 
 // set up a mongoose model
 var SalidaSchema = new Schema({

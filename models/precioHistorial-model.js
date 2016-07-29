@@ -7,7 +7,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Producto = require('../models/producto-model');
+//var Producto = require('../models/producto-model');
 
 // set up a mongoose model
 var PrecioSchema = new Schema({
