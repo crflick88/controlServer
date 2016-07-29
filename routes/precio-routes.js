@@ -19,10 +19,27 @@ var jwtCheck = jwt({
 //retrieves prices in many ways 
 app.get('/precios',function(req,res){
     
+    //property as sort
     var sort = "";
     if (req.query.hasOwnProperty('sort')){
         sort = req.query.sort;
         delete req.query["sort"];
+    }
+
+    //search by date
+    if (req.query.hasOwnProperty('fecha')){
+        var today = moment(req.query.fecha).startOf('day');
+        var tomorrow = moment(today).add(1, 'days');
+        
+        var fecha = 
+        {
+            "$gte": today.toDate(),
+            "$lt": tomorrow.toDate()
+        };
+
+        delete req.query["fecha"];
+
+        req.query.fecha = fecha;
     }
 
     Precio.find(req.query).sort(sort).exec(function(err,precios){
@@ -40,7 +57,7 @@ app.post('/precios', function(req, res) {
         
     precio.producto = req.body.producto;
     precio.precio = req.body.precio;
-    precio.tipo = req.body.tipo.toLowerCase();;
+    precio.tipo = req.body.tipo.toLowerCase();
     //using moment-timezone
     precio.fecha = moment(Date.now()).tz(moment.tz.guess()).format();
 

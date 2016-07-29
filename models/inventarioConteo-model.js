@@ -9,12 +9,14 @@ var Producto = require('../models/producto-model');
 var Sucursal = require('../models/sucursal-model');
 
 // set up a mongoose model
-var InventarioSchema = new Schema({
+var InventarioConteoSchema = new Schema({
     fecha: {type: Date, default: Date.now},             //fecha del conteo  
-    cantidad: {type: Number, required: true},           //cantidad de productos, no importan las unidades ni la precentacion. ej: 10 costal de minerales 20kg
-    producto: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Producto'},   //Object id de un producto
-    sucursal: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Sucursal'}   //Object id de una sucursal
+    sucursal: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Sucursal'},   //Object id de una sucursal
+    productos :{type:[{ //arreglo de productos que contienen info del producto y cantidad que se cuenta
+        cantidad: {type: Number, required: true},   //cantidad de productos (no importan las unidades ni las precentaciones) ej, costal minerales 20kg
+        producto: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Producto'} //Object id de un producto
+    }], required: true}
 });
 
 // pass Schema using module.exports
-module.exports = mongoose.model('Inventario',InventarioSchema);
+module.exports = mongoose.model('InventarioConteo',InventarioConteoSchema);
